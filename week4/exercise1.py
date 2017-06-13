@@ -28,11 +28,9 @@ def success_is_relative():
     # this depends on excecution context. Take a look at your CWD and remember
     # that it changes.
     # print(path, CWD)
-    path = CWD + "/week1/pySuccessMessage.json"
-    mode = "r"
-    file_ = open(path, mode)
-    dict_ = file_.read().strip(" \n\t")
-    return(dict_)
+    readFile = open("week1/pySuccessMessage.json", "r")
+    return (readFile.read().strip())
+    readFile.close()
 
 
 def get_some_details():
@@ -54,14 +52,10 @@ def get_some_details():
     json_data = open(LOCAL + "/lazyduck.json").read()
 
     data = json.loads(json_data)
-    lastName = data["results"][0]["name"]["last"]
-    password = data["results"][0]["login"]["password"]
-    postcode = int(data["results"][0]["location"]["postcode"])
-    id_result = int(data["results"][0]["id"]["value"])
-    postcodePlusID = postcode + id_result
-    return {"lastName":       lastName,
-            "password":       password,
-            "postcodePlusID": postcodePlusID
+    return {"lastName":       data["results"][0]["name"]["last"],
+            "password":       data["results"][0]["login"]["password"],
+            "postcodePlusID": int(data["results"][0]["location"]["postcode"]) +
+            int(data["results"][0]["id"]["value"])
             }
 
 
@@ -97,21 +91,17 @@ def wordy_pyramid():
     ]
     TIP: to add an argument to a URL, use: ?argName=argVal e.g. ?len=
     """
-    pyramid = []
-    URL = "http://www.setgetgo.com/randomword/get.php?len="
-
+    word_pyramid = []
+    url = "http://www.setgetgo.com/randomword/get.php?len="
     for i in range(3, 21, 2):
-        r = requests.get(URL + str(i))
-        word = r.text
-        print(word)
-        pyramid.append(word)
-
-    for j in range(20, 3, -2):
-        r = requests.get(URL + str(j))
-        word = r.text
-        print(word)
-        pyramid.append(word)
-        return pyramid
+        f_url = url + str(i)
+        res = requests.get(f_url)
+        word_pyramid.append(res.text)
+    for i in range(20, 3, -2):
+        f_url = url + str(i)
+        res = requests.get(f_url)
+        word_pyramid.append(res.text)
+    return word_pyramid
 
 
 def wunderground():
@@ -126,7 +116,7 @@ def wunderground():
          variable and then future access will be easier.
     """
     base = "http://api.wunderground.com/api/"
-    api_key = "df74b9060e4000f1"
+    api_key = "64e3302bf6d3567e"
     country = "AU"
     city = "Sydney"
     template = "{base}/{key}/conditions/q/{country}/{city}.json"
@@ -134,14 +124,12 @@ def wunderground():
     r = requests.get(url)
     the_json = json.loads(r.text)
     obs = the_json['current_observation']
-    state = obs["display_location"]["state"]
-    latitude = obs["observation_location"]["latitude"]
-    longitude = obs["observation_location"]["longitude"]
-    local_tz_offset = obs["local_tz_offset"]
-    return {"state":           state,
-            "latitude":        latitude,
-            "longitude":       longitude,
-            "local_tz_offset": local_tz_offset}
+    obs2 = obs['display_location']
+
+    return {"state":           obs2['state'],
+            "latitude":        obs['observation_location']['latitude'],
+            "longitude":       obs['observation_location']['longitude'],
+            "local_tz_offset": obs['local_tz_offset']}
 
 
 def diarist():
@@ -157,17 +145,17 @@ def diarist():
     TIP: remember to commit 'lasers.pew' and push it to your repo, otherwise
          the test will have nothing to look at.
     """
-    inputFile = open('week4/Trispokedovetiles(laser).gcode', 'r')
-    outputFile = open('week4/lasers.pew', 'w')
+    gCode = open('week4/Trispokedovetiles(laser).gcode', 'r')
+    output = open('week4/lasers.pew', 'w')
 
     count = 0
 
-    for x in inputFile.readlines():
+    for x in gCode.readlines():
         if "M10 P1" in x:
             count = count + 1
-    outputFile.write(str(count))
-    inputFile.close()
-    outputFile.close()
+    output.write(str(count))
+    gCode.close()
+    output.close()
 
 
 if __name__ == "__main__":
