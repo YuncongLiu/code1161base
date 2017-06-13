@@ -1,4 +1,4 @@
-# CODE1161 - [Yuncong Liu]
+# CODE1161 - Yuncong Liu(mika)
 
 You can see lots of other course related stuff [here](https://notionparallax.co.uk/CODE1161).
 
