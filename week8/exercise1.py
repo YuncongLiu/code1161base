@@ -9,7 +9,6 @@ You've got an hour.
 """
 from __future__ import division
 from __future__ import print_function
-# import time
 
 
 def greet(name="Towering Timmy"):
@@ -18,8 +17,7 @@ def greet(name="Towering Timmy"):
     return a string of "Hello" and the name argument.
     E.g. if given as "Towering Timmy" it should return "Hello Towering Timmy"
     """
-
-    return "Hello " + name
+    return ("Hello " + name)
 
 
 def three_counter(input_list=[1, 4, 3, 5, 7, 1, 3, 2, 3, 3, 5, 3, 7]):
@@ -46,16 +44,17 @@ def fizz_buzz():
     if it is. E.g. [1, 2, "Fizz", 4, "Buzz", 6, 7, ...]
     """
     fizzBuzzList = []
-    for i in range(1, 101):
-        if i % 3 == 0 and i % 5 == 0:
+    for n in range(1, 101):
+        if n % 3 == 0 and n % 5 == 0:
             fizzBuzzList.append("FizzBuzz")
-        elif i % 5 == 0:
-            fizzBuzzList.append("Buzz")
-        elif i % 3 == 0:
+        elif n % 3 == 0:
             fizzBuzzList.append("Fizz")
+        elif n % 5 == 0:
+            fizzBuzzList.append("Buzz")
         else:
-            fizzBuzzList.append(i)
+            fizzBuzzList.append(n)
     return fizzBuzzList
+    pass
 
 
 def put_behind_bars(input_string="very naughty boy"):
@@ -65,7 +64,7 @@ def put_behind_bars(input_string="very naughty boy"):
     e.g. "very naughty boy" should return "|v|e|r|y| |n|a|u|g|h|t|y| |b|o|y|"
     TIP: make sure that you have a pipe on both ends of the string.
     """
-    return (input_string.replace("",  "|"))
+    return (input_string.replace("", "|"))
 
 
 def pet_filter(letter="a"):
@@ -78,12 +77,9 @@ def pet_filter(letter="a"):
             "bali cattle", "gayal", "turkey", "goldfish", "rabbit", "koi",
             "canary", "society finch", "fancy mouse", "siamese fighting fish",
             "fancy rat and lab rat", "mink", "red fox", "hedgehog", "guppy"]
-    animals_letter_a = []
-    for animals in pets:
-        if letter in animals:
-            print (animals)
-            animals_letter_a.append(animals)
-    return animals_letter_a
+    animals = [k for k in pets if letter in k]
+    return animals
+    pass
 
 
 def best_letter_for_pets():
@@ -92,9 +88,15 @@ def best_letter_for_pets():
     Reusing the pet_filter, find the letter that gives the longest list of pets
     TIP: return just a letter, not the list of animals.
     """
-    # import string
-    # the_alphabet = string.lowercase
-    pass
+    import string
+    longestList = 0
+    the_alphabet = list(string.ascii_lowercase)
+    for i in xrange(0, len(the_alphabet), 1):
+        petList = pet_filter(the_alphabet[i])
+        if longestList < len(petList):
+            longestList = len(petList)
+            letter = the_alphabet[i]
+    return letter
 
 
 def make_filler_text_dictionary():
@@ -111,8 +113,17 @@ def make_filler_text_dictionary():
     TIP: to add an argument to a URL, use: ?argName=argVal e.g. ?len=
     TIP: you'll need the requests library
     """
-    # import requests
-    pass
+    import requests
+    randDict = {}
+    url = "http://www.setgetgo.com/randomword/get.php?len="
+    for i in xrange(3, 8, 1):
+        words = []
+        for x in (0, 2, 1):
+            dictUrl = url + str(i)
+            word = requests.get(dictUrl)
+            words.append(word.text)
+        randDict[i] = words
+    return randDict
 
 
 def random_filler_text(number_of_words=200):
@@ -127,7 +138,6 @@ def random_filler_text(number_of_words=200):
     Bonus: extra mark if you get the paragraph to start with a
            capital letter and end with a full stop.
     """
-    # import random
     pass
 
 
